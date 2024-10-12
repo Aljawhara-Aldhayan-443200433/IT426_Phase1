@@ -65,8 +65,26 @@ def Create_Initial_Population(Top,Bottom,Shoes,Neck,Purse,p):
     return population
 
 
-#Create the fitness function
+# get the user input 
+def user_input():
+    print("Welcome to PerfectFit! What is your name?")
+    name = input("> ")
+    
+    print(f"\nHi {name}! Please enter your dress code preference (Casual, Sportswear, Business, Evening):")
+    dressCodePref = input("> ")
+    
+    print("\nPlease enter your color palette preference (Dark, Bright):")
+    colorPalattePref = input("> ")
+    
+    print("\nPlease enter your comfort level (1 (least comfortable) to 5 (most comfortable)): ")
+    comfortLevelPref = int(input("> "))
+    
+    print("\nPlease enter your budget (in SAR).")
+    budgetPref = float(input("> "))
+    
+    return dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
 
+#Create the fitness function
 # weights as constants
 DRESS_CODE_WEIGHT = 0.3
 COLOR_PALETTE_WEIGHT = 0.2
@@ -85,7 +103,6 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     budgetMatch = 0
 
     #check if the individual match the prefered dress code (dressCodePref)
-
     if top[2] == dressCodePref and bottom[2] == dressCodePref and shoes[2] == dressCodePref and neck[2] == dressCodePref and purse[2] == dressCodePref:
         dressCodeMatc = 1
 
@@ -100,26 +117,13 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     if top[3] == colorPalattePref and bottom[3] == colorPalattePref and shoes[3] == colorPalattePref and neck[3] == colorPalattePref and purse[3] == colorPalattePref:
         colorPalatteMatch =1
 
-    #  Average comfort level of the individual to check if it<= comfortLevelPref
-
+    #Average comfort level of the individual to check if it<= comfortLevelPref
+    avgComfortLevel = (top[4] + bottom[4] + shoes[4] + neck[4] + purse[4]) / 5
+    
+    if avgComfortLevel <= comfortLevelPref:
+        comfortLevelMatch = 1
 
     #fiteness function formula
+    fitness_value = ((DRESS_CODE_WEIGHT * dressCodeMatch) + (COLOR_PALETTE_WEIGHT * colorPalatteMatch) + (COMFORT_LEVEL_WEIGHT * comfortLevelMatch) + (BUDGET_WEIGHT * budgetMatch))
 
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-    
-
-
+    return fitness_value
