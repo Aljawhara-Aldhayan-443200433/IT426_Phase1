@@ -64,3 +64,62 @@ def Create_Initial_Population(Top,Bottom,Shoes,Neck,Purse,p):
         population.append(individual)
     return population
 
+
+#Create the fitness function
+
+# weights as constants
+DRESS_CODE_WEIGHT = 0.3
+COLOR_PALETTE_WEIGHT = 0.2
+COMFORT_LEVEL_WEIGHT = 0.3
+BUDGET_WEIGHT = 0.2
+
+
+def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLevelPref , budgetPref ):
+
+    top, bottom, shoes, neck, purse = individual
+
+    # Initial fitness score = 0
+    dressCodeMatch = 0
+    colorPalatteMatch= 0
+    comfortLevelMatch = 0
+    budgetMatch = 0
+
+    #check if the individual match the prefered dress code (dressCodePref)
+
+    if top[2] == dressCodePref and bottom[2] == dressCodePref and shoes[2] == dressCodePref and neck[2] == dressCodePref and purse[2] == dressCodePref:
+        dressCodeMatc = 1
+
+    # Total price of the indiviual to check budget
+    totalPrice = top[1] + bottom[1] + shoes[1] + neck[1] + purse[1]
+
+    #check if the individual match the prefered budget (budgetPref)
+    if totalPrice <= budgetPref :
+        budgetMatch = 1
+
+    #check if the individual match the prefered color palatte (colorPalattePref)
+    if top[3] == colorPalattePref and bottom[3] == colorPalattePref and shoes[3] == colorPalattePref and neck[3] == colorPalattePref and purse[3] == colorPalattePref:
+        colorPalatteMatch =1
+
+    #  Average comfort level of the individual to check if it<= comfortLevelPref
+
+
+    #fiteness function formula
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
+
+    
+
+
