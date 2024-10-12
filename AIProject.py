@@ -117,10 +117,10 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     if top[3] == colorPalattePref and bottom[3] == colorPalattePref and shoes[3] == colorPalattePref and neck[3] == colorPalattePref and purse[3] == colorPalattePref:
         colorPalatteMatch =1
 
-    #Average comfort level of the individual to check if it<= comfortLevelPref
+    #Average comfort level of the individual to check if it>= comfortLevelPref
     avgComfortLevel = (top[4] + bottom[4] + shoes[4] + neck[4] + purse[4]) / 5
     
-    if avgComfortLevel <= comfortLevelPref:
+    if avgComfortLevel >= comfortLevelPref:
         comfortLevelMatch = 1
 
     #fiteness function formula
