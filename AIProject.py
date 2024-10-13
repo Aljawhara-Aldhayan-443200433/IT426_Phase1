@@ -110,7 +110,14 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     return fitness_value
 
 
-#Create the Selectio function
+#Create the Selection function (binary tournament selection)
+
+def binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref):
+    parentA = random.choice(population)
+    parentB = random.choice(population)
+    return parentA if fitness_function(parentA, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) > fitness_function(parentB, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) else parentB
+
+
 
 
 
