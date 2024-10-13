@@ -69,8 +69,8 @@ def Create_Initial_Population(Top,Bottom,Shoes,Neck,Purse,p):
 # weights as constants
 DRESS_CODE_WEIGHT = 0.3
 COLOR_PALETTE_WEIGHT = 0.2
-COMFORT_LEVEL_WEIGHT = 0.3
-BUDGET_WEIGHT = 0.2
+COMFORT_LEVEL_WEIGHT = 0.2
+BUDGET_WEIGHT = 0.3
 
 
 def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLevelPref , budgetPref ):
