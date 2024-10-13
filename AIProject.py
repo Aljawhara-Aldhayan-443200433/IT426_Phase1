@@ -69,8 +69,8 @@ def Create_Initial_Population(Top,Bottom,Shoes,Neck,Purse,p):
 # weights as constants
 DRESS_CODE_WEIGHT = 0.3
 COLOR_PALETTE_WEIGHT = 0.2
-COMFORT_LEVEL_WEIGHT = 0.3
-BUDGET_WEIGHT = 0.2
+COMFORT_LEVEL_WEIGHT = 0.2
+BUDGET_WEIGHT = 0.3
 
 
 def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLevelPref , budgetPref ):
@@ -85,7 +85,7 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
 
     #check if the individual match the prefered dress code (dressCodePref)
     if top[2] == dressCodePref and bottom[2] == dressCodePref and shoes[2] == dressCodePref and neck[2] == dressCodePref and purse[2] == dressCodePref:
-        dressCodeMatc = 1
+        dressCodeMatch = 1
 
     # Total price of the indiviual to check budget
     totalPrice = top[1] + bottom[1] + shoes[1] + neck[1] + purse[1]
