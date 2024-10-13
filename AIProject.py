@@ -136,7 +136,7 @@ def user_input():
     return dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
 
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
 
     #Create the initial population
     population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, random.randint(5, 100))
