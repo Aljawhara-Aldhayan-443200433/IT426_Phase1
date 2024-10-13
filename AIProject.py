@@ -69,8 +69,8 @@ def Create_Initial_Population(Top,Bottom,Shoes,Neck,Purse,p):
 # weights as constants
 DRESS_CODE_WEIGHT = 0.3
 COLOR_PALETTE_WEIGHT = 0.2
-COMFORT_LEVEL_WEIGHT = 0.2
-BUDGET_WEIGHT = 0.3
+COMFORT_LEVEL_WEIGHT = 0.3
+BUDGET_WEIGHT = 0.2
 
 
 def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLevelPref , budgetPref ):
@@ -85,7 +85,7 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
 
     #check if the individual match the prefered dress code (dressCodePref)
     if top[2] == dressCodePref and bottom[2] == dressCodePref and shoes[2] == dressCodePref and neck[2] == dressCodePref and purse[2] == dressCodePref:
-        dressCodeMatch = 1
+        dressCodeMatc = 1
 
     # Total price of the indiviual to check budget
     totalPrice = top[1] + bottom[1] + shoes[1] + neck[1] + purse[1]
@@ -111,7 +111,6 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
 
 
 #Create the Selectio function
-
 
 
 
@@ -167,20 +166,16 @@ def user_input():
     return dressCodePref, colorPalattePref, int(comfortLevelPref), budgetPref
 
 
-
 if __name__ == "__main__":
 
     #Create the initial population
-    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, random.randint(5,100))
+    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, random.randint(5, 100))
 
     #Get the user input
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
     
-# Evaluate fitness for each individual in the population and print the fitness score
-fitness_scores = []
-for idx, individual in enumerate(population):
-    fitness_score = fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
-    fitness_scores.append(fitness_score)
-    
-    # Print only the fitness score for each individual
-    print(f"Individual {idx + 1} Fitness Score: {fitness_score}")
+    #Evaluate fitness for each individual in the population
+    fitness_scores = []
+    for individual in population:
+        fitness_score = fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+        fitness_scores.append(fitness_score)
