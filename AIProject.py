@@ -116,36 +116,71 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
 
 
 
+
 #Get the user input 
 def user_input():
     print("Welcome to PerfectFit! What is your name?")
-    name = input("> ")
     
+    # get user name and ensure it's not empty
+    name = input("> ")
+    while len(name.strip()) == 0:
+        print("Name cannot be empty, please enter your name.")
+        name = input("> ")
+
+    # get dress code preference and validate the input to ensure it is within the dress code list
     print(f"\nHi {name}! Please enter your dress code preference (Casual, Sportswear, Business, Evening):")
     dressCodePref = input("> ")
-    
+    while len(dressCodePref.strip()) == 0 or dressCodePref not in ['Casual', 'Sportswear', 'Business', 'Evening']:
+        print("\nInvalid input, please enter a valid dress code preference: Casual, Sportswear, Business, Evening.")
+        dressCodePref = input("> ")
+
+    # get color palette preference and validate the input to ensure it is within the color palette list
     print("\nPlease enter your color palette preference (Dark, Bright):")
     colorPalattePref = input("> ")
-    
+    while len(colorPalattePref.strip()) == 0 or colorPalattePref not in ['Dark', 'Bright']:
+        print('Invalid input, please enter a valid color palette preference: Dark or Bright.')
+        colorPalattePref = input("> ")
+
+    # get comfort level and validate the input to ensure it is within the comfort level range
     print("\nPlease enter your comfort level (1 (least comfortable) to 5 (most comfortable)): ")
-    comfortLevelPref = int(input("> "))
-    
+    comfortLevelPref = input("> ")
+    while len(comfortLevelPref.strip()) == 0 or not comfortLevelPref.isdigit() or not (1 <= int(comfortLevelPref) <= 5):
+        print('Invalid input, please enter your comfort level in the range 1 to 5.')
+        comfortLevelPref = input("> ")
+
+    #get the user budget and check if it is a positive number
     print("\nPlease enter your budget (in SAR).")
-    budgetPref = float(input("> "))
-    
-    return dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
+    while True:
+        budgetPref = input("> ").strip()
+        if len(budgetPref) == 0:
+            print("Budget cannot be empty, please enter a valid budget.")
+            continue
+        try:
+            budgetPref = float(budgetPref)
+            if budgetPref <= 0:
+                print("Input must be a positive number, please enter a valid budget (in SAR).")
+                continue
+            break
+        except ValueError:
+            print("Invalid input, please enter a valid number.")
+
+    return dressCodePref, colorPalattePref, int(comfortLevelPref), budgetPref
 
 
-#if __name__ == "__main__":
+
+if __name__ == "__main__":
 
     #Create the initial population
-    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, random.randint(5, 100))
+    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, random.randint(5,100))
 
     #Get the user input
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
     
-    #Evaluate fitness for each individual in the population
-    fitness_scores = []
-    for individual in population:
-        fitness_score = fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
-        fitness_scores.append(fitness_score)
+# Evaluate fitness for each individual in the population and print the fitness score
+fitness_scores = []
+for idx, individual in enumerate(population):
+    fitness_score = fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+    fitness_scores.append(fitness_score)
+    
+    # Print only the fitness score for each individual
+    print(f"Individual {idx + 1} Fitness Score: {fitness_score}")
