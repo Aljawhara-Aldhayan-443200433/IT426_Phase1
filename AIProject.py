@@ -65,25 +65,6 @@ def Create_Initial_Population(Top,Bottom,Shoes,Neck,Purse,p):
     return population
 
 
-# get the user input 
-def user_input():
-    print("Welcome to PerfectFit! What is your name?")
-    name = input("> ")
-    
-    print(f"\nHi {name}! Please enter your dress code preference (Casual, Sportswear, Business, Evening):")
-    dressCodePref = input("> ")
-    
-    print("\nPlease enter your color palette preference (Dark, Bright):")
-    colorPalattePref = input("> ")
-    
-    print("\nPlease enter your comfort level (1 (least comfortable) to 5 (most comfortable)): ")
-    comfortLevelPref = int(input("> "))
-    
-    print("\nPlease enter your budget (in SAR).")
-    budgetPref = float(input("> "))
-    
-    return dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
-
 #Create the fitness function
 # weights as constants
 DRESS_CODE_WEIGHT = 0.3
@@ -127,3 +108,44 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     fitness_value = ((DRESS_CODE_WEIGHT * dressCodeMatch) + (COLOR_PALETTE_WEIGHT * colorPalatteMatch) + (COMFORT_LEVEL_WEIGHT * comfortLevelMatch) + (BUDGET_WEIGHT * budgetMatch))
 
     return fitness_value
+
+
+#Create the Selectio function
+
+
+
+
+
+#Get the user input 
+def user_input():
+    print("Welcome to PerfectFit! What is your name?")
+    name = input("> ")
+    
+    print(f"\nHi {name}! Please enter your dress code preference (Casual, Sportswear, Business, Evening):")
+    dressCodePref = input("> ")
+    
+    print("\nPlease enter your color palette preference (Dark, Bright):")
+    colorPalattePref = input("> ")
+    
+    print("\nPlease enter your comfort level (1 (least comfortable) to 5 (most comfortable)): ")
+    comfortLevelPref = int(input("> "))
+    
+    print("\nPlease enter your budget (in SAR).")
+    budgetPref = float(input("> "))
+    
+    return dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
+
+
+if __name__ == "__main__":
+
+    #Create the initial population
+    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, random.randint(5, 100))
+
+    #Get the user input
+    dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
+    
+    #Evaluate fitness for each individual in the population
+    fitness_scores = []
+    for individual in population:
+        fitness_score = fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+        fitness_scores.append(fitness_score)
