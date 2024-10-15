@@ -115,7 +115,17 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
 def binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref):
     parentA = random.choice(population)
     parentB = random.choice(population)
-    return parentA if fitness_function(parentA, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) > fitness_function(parentB, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) else parentB
+
+    fitnessA = fitness_function(parentA, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+    fitnessB = fitness_function(parentB, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+    
+    if fitnessA > fitnessB: return parentA
+
+    elif fitnessB > fitnessA: return parentB
+
+
+    #random selection in case of a tie between the parents
+    else: return random.choice([parentA,parentB])
 
 
 
