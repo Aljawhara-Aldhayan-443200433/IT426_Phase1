@@ -204,7 +204,7 @@ if __name__ == "__main__":
 
 # Print the selected parent 
 print("\nWe are working on preparing your optimal outfit...")
-print("\nYour outfit selection is ready! Here’s your personalized outfit plan (Note: This is just a suggestion):\n")
+print("\nYour outfit selection is ready! Here’s your personalized outfit plan :\n")
 
 # Destructure the selected parent tuple
 top, bottom, shoes, neck, purse = selectedParent
