@@ -202,6 +202,19 @@ if __name__ == "__main__":
         population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
     )
 
+# Print the selected parent 
+print("\nWe are working on preparing your optimal outfit...")
+print("\nYour outfit selection is ready! Here’s your personalized outfit plan (Note: This is just a suggestion):\n")
 
+# Destructure the selected parent tuple
+top, bottom, shoes, neck, purse = selectedParent
+
+print(f"Top: {top[0]}")
+print(f"Bottom: {bottom[0]}")
+print(f"Shoes: {shoes[0]}")
+print(f"Neck: {neck[0]}")
+print(f"Purse: {purse[0]}")
+
+print("\nHope you feel fabulous in your outfit!")
 
     
