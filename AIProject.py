@@ -191,11 +191,10 @@ if __name__ == "__main__":
     #Get the user input
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
     
-    print("We are working on preparing your optimal outfit...")
  
     #Evaluate fitness for each individual in the population
     best_individual = max(population, key=lambda ind: fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref))
-
+    print("We are working on preparing your optimal outfit...")
     print("Your outfit selection is ready! Here’s your personalized outfit plan:\n")
     print(f"Top: {best_individual[0][0]}")
     print(f"Bottom: {best_individual[1][0]}")
