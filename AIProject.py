@@ -186,24 +186,22 @@ def user_input():
 if __name__ == "__main__":
 
     #Create the initial population
-    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, random.randint(5, 100))
+    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, 10)
 
     #Get the user input
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
     
- 
     #Evaluate fitness for each individual in the population
-    def get_fitness(ind):
-        return fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+    fitness_scores = []
+    for individual in population:
+        fitness_score = fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+        fitness_scores.append(fitness_score)
 
-    best_individual = max(population, key=get_fitness)
+     # Select a parent using binary tournament selection
+    selectedParent = binary_tournament_selection(
+        population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
+    )
 
-    print("We are working on preparing your optimal outfit...")
-    print("Your outfit selection is ready! Here’s your personalized outfit plan:\n")
-    print(f"Top: {best_individual[0][0]}")
-    print(f"Bottom: {best_individual[1][0]}")
-    print(f"Shoes: {best_individual[2][0]}")
-    print(f"Neck: {best_individual[3][0]}")
-    print(f"Purse: {best_individual[4][0]}")
 
-    print("\nHope you feel fabulous in your outfit!")
+
+    
