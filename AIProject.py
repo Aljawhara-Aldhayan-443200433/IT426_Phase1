@@ -123,7 +123,7 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     #fiteness function formula
     fitness_value = ((DRESS_CODE_WEIGHT * dressCodeMatch) + (COLOR_PALETTE_WEIGHT * colorPalatteMatch) + (COMFORT_LEVEL_WEIGHT * comfortLevelMatch) + (BUDGET_WEIGHT * budgetMatch))
 
-    return round(fitness_value, 2)
+    return fitness_value
 
 
 #Create the Selection function (binary tournament selection)
