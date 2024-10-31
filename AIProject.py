@@ -83,9 +83,16 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     comfortLevelMatch = 0
     budgetMatch = 0
 
-    #check if the individual match the prefered dress code (dressCodePref)
-    if top[2] == dressCodePref and bottom[2] == dressCodePref and shoes[2] == dressCodePref and neck[2] == dressCodePref and purse[2] == dressCodePref:
-        dressCodeMatch = 1
+#check if the individual match the prefered dress code (dressCodePref)
+    dressCodeMatches = [
+        int(top[2] == dressCodePref),
+        int(bottom[2] == dressCodePref),
+        int(shoes[2] == dressCodePref),
+        int(neck[2] == dressCodePref),
+        int(purse[2] == dressCodePref)
+    ]
+    dressCodeMatch = sum(dressCodeMatches) / 5
+   
 
     # Total price of the indiviual to check budget
     totalPrice = top[1] + bottom[1] + shoes[1] + neck[1] + purse[1]
@@ -98,6 +105,15 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     if top[3] == colorPalattePref and bottom[3] == colorPalattePref and shoes[3] == colorPalattePref and neck[3] == colorPalattePref and purse[3] == colorPalattePref:
         colorPalatteMatch =1
 
+    colorPalatteMatches = [
+        int(top[3] == colorPalattePref),
+        int(bottom[3] == colorPalattePref),
+        int(shoes[3] == colorPalattePref),
+        int(neck[3] == colorPalattePref),
+        int(purse[3] == colorPalattePref)
+    ]
+    colorPalatteMatch = sum(colorPalatteMatches) / 5 
+
     #Average comfort level of the individual to check if it>= comfortLevelPref
     avgComfortLevel = (top[4] + bottom[4] + shoes[4] + neck[4] + purse[4]) / 5
     
@@ -107,28 +123,44 @@ def fitness_function(individual , dressCodePref ,  colorPalattePref , comfortLev
     #fiteness function formula
     fitness_value = ((DRESS_CODE_WEIGHT * dressCodeMatch) + (COLOR_PALETTE_WEIGHT * colorPalatteMatch) + (COMFORT_LEVEL_WEIGHT * comfortLevelMatch) + (BUDGET_WEIGHT * budgetMatch))
 
-    return fitness_value
+    return round(fitness_value, 2)
 
 
 #Create the Selection function (binary tournament selection)
-
 def binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref):
+    # Select two random parents from the population
     parentA = random.choice(population)
     parentB = random.choice(population)
 
+    # Calculate fitness for each parent
     fitnessA = fitness_function(parentA, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
     fitnessB = fitness_function(parentB, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
-    
-    if fitnessA > fitnessB: return parentA
 
-    elif fitnessB > fitnessA: return parentB
+    #################################code for testing fitness and selection
 
+    def display_parent_info(parent, fitness_score, label):
+        top, bottom, shoes, neck, purse = parent
+        print(f"\n{label} Fitness Score: {fitness_score}")
+        print(f"Top: {top[0]} ({top[2]}, {top[3]}, ${top[1]}, Comfort Level: {top[4]})")
+        print(f"Bottom: {bottom[0]} ({bottom[2]}, {bottom[3]}, ${bottom[1]}, Comfort Level: {bottom[4]})")
+        print(f"Shoes: {shoes[0]} ({shoes[2]}, {shoes[3]}, ${shoes[1]}, Comfort Level: {shoes[4]})")
+        print(f"Neck: {neck[0]} ({neck[2]}, {neck[3]}, ${neck[1]}, Comfort Level: {neck[4]})")
+        print(f"Purse: {purse[0]} ({purse[2]}, {purse[3]}, ${purse[1]}, Comfort Level: {purse[4]})")
 
-    #random selection in case of a tie between the parents
-    else: return random.choice([parentA,parentB])
+    print("\nParents:")
+    display_parent_info(parentA, fitnessA, "Parent A")
+    display_parent_info(parentB, fitnessB, "Parent B")
 
+    #################################End ofcode for testing fitness and selection
 
-
+    # Select the parent with the higher fitness score
+    if fitnessA > fitnessB:
+        return parentA
+    elif fitnessB > fitnessA:
+        return parentB
+    # If scores are equal, randomly select one of the parents
+    else:
+        return random.choice([parentA, parentB])
 
 
 
@@ -191,16 +223,13 @@ if __name__ == "__main__":
     #Get the user input
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
     
-    #Evaluate fitness for each individual in the population
-    fitness_scores = []
-    for individual in population:
-        fitness_score = fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
-        fitness_scores.append(fitness_score)
+
 
      # Select a parent using binary tournament selection
     selectedParent = binary_tournament_selection(
         population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
     )
+    
 
 # Print the selected parent 
 print("\nWe are working on preparing your optimal outfit...")
