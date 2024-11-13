@@ -163,7 +163,16 @@ def binary_tournament_selection(population, dressCodePref, colorPalattePref, com
         return random.choice([parentA, parentB])
 
 
+def Crossover(parent1, parent2):
 
+    # Randomly select two crossover points
+    point1, point2 = sorted(random.sample(range(len(parent1)), 2))
+
+    # Create offspring by swapping segments between the crossover points
+    offspring1 = parent1[:point1] + parent2[point1:point2] + parent1[point2:]
+    offspring2 = parent2[:point1] + parent1[point1:point2] + parent2[point2:]
+
+    return offspring1, offspring2
 
 #Get the user input 
 def user_input():
