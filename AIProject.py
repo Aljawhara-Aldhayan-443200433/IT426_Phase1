@@ -174,6 +174,31 @@ def Crossover(parent1, parent2):
 
     return offspring1, offspring2
 
+
+# Mutation() function: Mutate the items within the individual randomly if the mutation_rate exceeds random.random() 
+def Mutation(individual, mutation_rate):
+
+    mutant=list(individual)
+
+    for i in range(len(mutant)):
+        if random.random() < mutation_rate:
+            if i==0:
+                mutant[i]= random.choice(Top)
+            elif i==1:
+                mutant[i]= random.choice(Bottom)
+            elif i==2:
+                mutant[i]= random.choice(Shoes)
+            elif i==3:
+                mutant[i]= random.choice(Neck)
+            elif i==4:
+                mutant[i]= random.choice(Purse)
+
+    mutant=tuple(mutant)
+
+    return mutant
+
+
+
 #Get the user input 
 def user_input():
     print("Welcome to PerfectFit! What is your name?")
