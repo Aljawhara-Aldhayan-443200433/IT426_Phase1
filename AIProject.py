@@ -194,12 +194,11 @@ def Mutation(individual, mutation_rate):
                 mutant[i]= random.choice(Purse)
 
     mutant=tuple(mutant)
-
     return mutant
 
-
-
-
+def generational_replacement(population, offspring):
+    """Replaces the entire parent population with the offspring."""
+    return offspring
 
 #Create Termination condition function
 #parameters for terminating the genetic algorithm
