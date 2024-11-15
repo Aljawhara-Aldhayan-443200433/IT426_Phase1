@@ -199,6 +199,29 @@ def Mutation(individual, mutation_rate):
 
 
 
+
+
+#Create Termination condition function
+#parameters for terminating the genetic algorithm
+max_generations = 20000 
+error_limit = 1e-8 #maximum allowed difference to the optimal solution =10^(-8)
+
+#Variables for tracking progress against meeting termination conditions
+optimal_solution = 1.0 #best possible fitness value
+objective_function_value = 0 #highest fitness score found in the current generation
+generation_counter = 0
+
+def termination_condition(generation_counter, objective_function_value, optimal_solution):
+#measure how close the current fitness is to the optimal solution
+    error_value = abs(objective_function_value - optimal_solution)
+    if error_value < error_limit:
+        return True
+    elif generation_counter >= max_generations:
+        return True
+    else:
+        return False
+
+
 #Get the user input 
 def user_input():
     print("Welcome to PerfectFit! What is your name?")
