@@ -136,22 +136,7 @@ def binary_tournament_selection(population, dressCodePref, colorPalattePref, com
     fitnessA = fitness_function(parentA, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
     fitnessB = fitness_function(parentB, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
 
-    #################################code for testing fitness and selection
 
-    def display_parent_info(parent, fitness_score, label):
-        top, bottom, shoes, neck, purse = parent
-        print(f"\n{label} Fitness Score: {fitness_score}")
-        print(f"Top: {top[0]} ({top[2]}, {top[3]}, ${top[1]}, Comfort Level: {top[4]})")
-        print(f"Bottom: {bottom[0]} ({bottom[2]}, {bottom[3]}, ${bottom[1]}, Comfort Level: {bottom[4]})")
-        print(f"Shoes: {shoes[0]} ({shoes[2]}, {shoes[3]}, ${shoes[1]}, Comfort Level: {shoes[4]})")
-        print(f"Neck: {neck[0]} ({neck[2]}, {neck[3]}, ${neck[1]}, Comfort Level: {neck[4]})")
-        print(f"Purse: {purse[0]} ({purse[2]}, {purse[3]}, ${purse[1]}, Comfort Level: {purse[4]})")
-
-    print("\nParents:")
-    display_parent_info(parentA, fitnessA, "Parent A")
-    display_parent_info(parentB, fitnessB, "Parent B")
-
-    #################################End ofcode for testing fitness and selection
 
     # Select the parent with the higher fitness score
     if fitnessA > fitnessB:
@@ -278,21 +263,53 @@ if __name__ == "__main__":
 
     #Get the user input
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
-    
 
-
-     # Select a parent using binary tournament selection
-    selectedParent = binary_tournament_selection(
-        population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref
-    )
     
+    #Variables for tracking progress against meeting termination conditions  
+    generation_counter = 0
+    objective_function_value = 0 #highest fitness score found in the current generation
+    optimal_solution = 1.0 #best possible fitness value
+
+    #Run the GA until the termination condition is met
+    while not termination_condition(generation_counter,  objective_function_value, optimal_solution):
+
+        #new generation
+        offspring = []
+
+        for _ in range(5): # since the population is fixed=10 we want thr loop to run 5 time to create 10 offsprings matching the population
+            
+           # Select parents using binary tournament selection
+            parent1 = binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+            parent2 = binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+
+            # Perform crossover 
+            child1, child2 = Crossover(parent1, parent2)
+
+            #perform mutation on the offsprings (child1, child2)
+            child1 = Mutation(child1, mutation_rate=0.1)
+            child2 = Mutation(child2, mutation_rate=0.1)
+
+            # Add offspring to create the new generation
+            offspring.extend([child1, child2])
+
+       # Perform replacment to replace the old population with the new generation created when adding the offsprings
+        population = generational_replacement(population, offspring)
+
+        # Evaluate the fitness scores of the indivituals in the population after the new generation
+        fitness_scores = [fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for individual in population]
+        objective_function_value = max(fitness_scores)
+
+        # Increment the generation counter
+        generation_counter += 1
+# Select the best outfit from the new generation
+selectedOutfit = population[fitness_scores.index(max(fitness_scores))] #selects the indivual with the max fitness from the fitness_scores list
 
 # Print the selected parent 
 print("\nWe are working on preparing your optimal outfit...")
 print("\nYour outfit selection is ready! Here’s your personalized outfit plan :\n")
 
 # Destructure the selected parent tuple
-top, bottom, shoes, neck, purse = selectedParent
+top, bottom, shoes, neck, purse = selectedOutfit
 
 print(f"Top: {top[0]}")
 print(f"Bottom: {bottom[0]}")
