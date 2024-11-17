@@ -1,6 +1,6 @@
 #imports
 import random
-
+import matplotlib.pyplot as plt
 #Search space
 Top=[
     ["T-shirt",0.0,"Casual","Bright",5],
@@ -192,14 +192,13 @@ error_limit = 1e-8 #maximum allowed difference to the optimal solution =10^(-8)
 
 #Variables for tracking progress against meeting termination conditions
 optimal_solution = 1.0 #best possible fitness value
-objective_function_value = 0 #highest fitness score found in the current generation
-generation_counter = 0
 
 def termination_condition(generation_counter, objective_function_value, optimal_solution):
 #measure how close the current fitness is to the optimal solution
     error_value = abs(objective_function_value - optimal_solution)
     if error_value < error_limit:
         return True
+    #stop if the maximum number of generations has been reached
     elif generation_counter >= max_generations:
         return True
     else:
@@ -257,66 +256,77 @@ def user_input():
 
 
 if __name__ == "__main__":
-
-    #Create the initial population
-    population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, 10)
-
-    #Get the user input
+    # Get user input
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
 
-    
-    #Variables for tracking progress against meeting termination conditions  
-    generation_counter = 0
-    objective_function_value = 0 #highest fitness score found in the current generation
-    optimal_solution = 1.0 #best possible fitness value
+    # Store the fitness progress of multiple GA runs for performance analysis
+    all_runs_fitness = []
+    print("\nWe are working on preparing your optimal outfit...")
 
-    #Run the GA until the termination condition is met
-    while not termination_condition(generation_counter,  objective_function_value, optimal_solution):
+    for run in range(20):  # Run the GA 20 times
+        population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, 10)
+        # Variables for tracking progress against meeting termination conditions
+        fitness_progress = []  # To track fitness for each generation
+        generation_counter = 0
+        objective_function_value = 0 #highest fitness score found in the current generation
 
-        #new generation
-        offspring = []
+        # Run the GA until the termination condition is met
+        while not termination_condition(generation_counter, objective_function_value, optimal_solution):
+            # New generation
+            offspring = []
+            for _ in range(5):  # Since the population is fixed=10
+                # Select parents using binary tournament selection
+                parent1 = binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+                parent2 = binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+                # Perform crossover
+                child1, child2 = Crossover(parent1, parent2)
+                # Perform mutation on the offspring
+                child1 = Mutation(child1, mutation_rate=0.1)
+                child2 = Mutation(child2, mutation_rate=0.1)
+                # Add offspring to the new generation
+                offspring.extend([child1, child2])
+            # Replace the old population with the new generation
+            population = generational_replacement(population, offspring)
+            # Evaluate the fitness scores
+            fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
+            objective_function_value = max(fitness_scores)
+            # Append the best fitness value of the current generation to track progress
+            fitness_progress.append(objective_function_value)
+            # Increment the generation counter
+            generation_counter += 1
 
-        for _ in range(5): # since the population is fixed=10 we want thr loop to run 5 time to create 10 offsprings matching the population
-            
-           # Select parents using binary tournament selection
-            parent1 = binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
-            parent2 = binary_tournament_selection(population, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+        # Store fitness progress of the current run.
+        all_runs_fitness.append(fitness_progress)
 
-            # Perform crossover 
-            child1, child2 = Crossover(parent1, parent2)
+    # Calculate average fitness across all runs for each generation
+    average_fitness = []
+    for gen in zip(*all_runs_fitness):
+        average_fitness.append(sum(gen) / len(gen))
 
-            #perform mutation on the offsprings (child1, child2)
-            child1 = Mutation(child1, mutation_rate=0.1)
-            child2 = Mutation(child2, mutation_rate=0.1)
+    # Select the best outfit from the last generation
+    selectedOutfit = population[fitness_scores.index(max(fitness_scores))]
 
-            # Add offspring to create the new generation
-            offspring.extend([child1, child2])
+    # Print the selected parent
+    print("\nYour outfit selection is ready! Here’s your personalized outfit plan:\n")
+    top, bottom, shoes, neck, purse = selectedOutfit
+    print(f"Top: {top[0]}")
+    print(f"Bottom: {bottom[0]}")
+    print(f"Shoes: {shoes[0]}")
+    print(f"Neck: {neck[0]}")
+    print(f"Purse: {purse[0]}")
+    print("\nHope you feel fabulous in your outfit!")
 
-       # Perform replacment to replace the old population with the new generation created when adding the offsprings
-        population = generational_replacement(population, offspring)
+# Plot the performance graph without limiting the number of generations
+plt.figure(figsize=(10, 6))  # For better visualization
+plt.plot(
+    range(0, len(average_fitness), 300),  # Plot every 100th generation on the x-axis
+    average_fitness[::300],  # Use the fitness values corresponding to every 100th generation
+    marker='D', linestyle='-', color='b'  # Diamond marker with a blue line
+)
+plt.title('GA Performance')  # Title of the graph
+plt.xlabel('Generation')  # Label for the x-axis
+plt.ylabel('Fitness')  # Label for the y-axis
+plt.grid(axis='y', linestyle='-', color='gray')  # Display horizontal grid lines only
+plt.show()  # Display the plot
 
-        # Evaluate the fitness scores of the indivituals in the population after the new generation
-        fitness_scores = [fitness_function(individual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for individual in population]
-        objective_function_value = max(fitness_scores)
 
-        # Increment the generation counter
-        generation_counter += 1
-# Select the best outfit from the new generation
-selectedOutfit = population[fitness_scores.index(max(fitness_scores))] #selects the indivual with the max fitness from the fitness_scores list
-
-# Print the selected parent 
-print("\nWe are working on preparing your optimal outfit...")
-print("\nYour outfit selection is ready! Here’s your personalized outfit plan :\n")
-
-# Destructure the selected parent tuple
-top, bottom, shoes, neck, purse = selectedOutfit
-
-print(f"Top: {top[0]}")
-print(f"Bottom: {bottom[0]}")
-print(f"Shoes: {shoes[0]}")
-print(f"Neck: {neck[0]}")
-print(f"Purse: {purse[0]}")
-
-print("\nHope you feel fabulous in your outfit!")
-
-    
