@@ -289,6 +289,7 @@ if __name__ == "__main__":
             population = generational_replacement(population, offspring)
             # Evaluate the fitness scores
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
+            # Set the objective function value to the highest fitness score in the current population
             objective_function_value = max(fitness_scores)
             # Append the best fitness value of the current generation to track progress
             fitness_progress.append(objective_function_value)
