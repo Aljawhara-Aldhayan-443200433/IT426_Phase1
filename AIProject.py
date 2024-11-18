@@ -164,22 +164,15 @@ def Crossover(parent1, parent2):
 def Mutation(individual, mutation_rate):
 
     mutant=list(individual)
+    itemLists=(Top,Bottom,Shoes,Neck,Purse)
 
-    for i in range(len(mutant)):
+    for eachGene in range(len(mutant)):
         if random.random() < mutation_rate:
-            if i==0:
-                mutant[i]= random.choice(Top)
-            elif i==1:
-                mutant[i]= random.choice(Bottom)
-            elif i==2:
-                mutant[i]= random.choice(Shoes)
-            elif i==3:
-                mutant[i]= random.choice(Neck)
-            elif i==4:
-                mutant[i]= random.choice(Purse)
+                mutant[eachGene]= random.choice(itemLists[eachGene])
 
     mutant=tuple(mutant)
     return mutant
+
 
 def generational_replacement(population, offspring):
     """Replaces the entire parent population with the offspring."""
