@@ -181,20 +181,15 @@ def Replacement(population, offspring):
 
 
 #Create Termination condition function
-#parameters for terminating the genetic algorithm
-max_generations = 20000 
-error_limit = 1e-8 #maximum allowed difference to the optimal solution =10^(-8)
-
-#Variables for tracking progress against meeting termination conditions
+#Variable for tracking progress against meeting termination conditions
 optimal_solution = 1.0 #best possible fitness value
 
 def termination_condition(generation_counter, objective_function_value, optimal_solution):
-#measure how close the current fitness is to the optimal solution
-    error_value = abs(objective_function_value - optimal_solution)
-    if error_value < error_limit:
+    #measure how close the current fitness is to the optimal solution
+    if abs(objective_function_value - optimal_solution) < 1e-8:
         return True
-    #stop if the maximum number of generations has been reached
-    elif generation_counter >= max_generations:
+    #stop if the maximum number of generations has been reached (20000)
+    elif generation_counter >= 20000:
         return True
     else:
         return False
