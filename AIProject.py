@@ -280,7 +280,7 @@ if __name__ == "__main__":
             # Increment the generation counter
             generation_counter += 1
 
-        # Store the fitness values of the current run for tracking progress.
+        # Store the fitness values of the current run for tracking progress
         all_fitness.append(best_fitness)
 
     #calculate average fitness across all runs for each generation
