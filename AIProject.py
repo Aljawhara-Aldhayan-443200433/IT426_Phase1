@@ -283,10 +283,15 @@ if __name__ == "__main__":
         # Store fitness progress of the current run.
         all_fitness.append(best_fitness)
 
-    # Calculate average fitness across all runs for each generation
+    #calculate average fitness across all runs for each generation
     average_fitness = []
     for gen in zip(*all_fitness):
         average_fitness.append(sum(gen) / len(gen))
+    #the average fitness across all generations for each run
+    average_fitness_runs = [sum(run) / len(run) for run in all_fitness]
+
+    #the overall average fitness across all runs (round to 2 decimal places)
+    overall_average = round(sum(average_fitness_runs) / len(average_fitness_runs),2)
 
     # Select the best outfit from the last generation
     selectedOutfit = population[fitness_scores.index(max(fitness_scores))]
@@ -300,7 +305,7 @@ if __name__ == "__main__":
     print(f"Neck: {neck[0]}")
     print(f"Purse: {purse[0]}")
     print("\nHope you feel fabulous in your outfit!")
-
+    print("\nThe overall average fitness:", overall_average)
 
 
 # Plot the performance graph without limiting the number of generations
