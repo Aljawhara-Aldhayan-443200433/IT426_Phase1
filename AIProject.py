@@ -174,10 +174,20 @@ def Mutation(individual, mutation_rate):
     return mutant
 
 
-# Replacement(): Replace the old population with the new one(offspring)
-def Replacement(offspring):
-    
-    return offspring
+# Replacement(): Replace the old population with the best inidivduals from (population,offspring) based on fitness function
+def Replacement(population, offspring, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref):
+
+    allIndivduals= population + offspring
+    BestIndivduals=[]
+
+    for eachIndivdual in allIndivduals:
+            fitness = fitness_function(eachIndivdual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
+            BestIndivduals.append((eachIndivdual,fitness))
+
+    BestIndivduals = sorted(BestIndivduals, reverse=True, key=lambda x: x[1])
+    newPopulation= [indivdiual[0] for indivdiual in BestIndivduals[:10]]
+         
+    return newPopulation
 
 #Create Termination condition function
 
@@ -270,7 +280,7 @@ if __name__ == "__main__":
                 # Add offspring to the new generation
                 offspring.extend([child1, child2])
             # Replace the old population with the new generation
-            population = Replacement(offspring)
+            population = Replacement(population,offspring,dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
             # Evaluate the fitness scores
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
 
