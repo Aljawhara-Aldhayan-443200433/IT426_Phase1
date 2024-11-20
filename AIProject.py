@@ -281,12 +281,12 @@ if __name__ == "__main__":
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
             # Set the objective function value to the highest fitness score in the current population
             objective_function_value = max(fitness_scores)
-            # Append the best fitness value of the current generation to track progress
+            # Record the best fitness value of the current generation to track progress
             best_fitness.append(objective_function_value)
             # Increment the generation counter
             generation_counter += 1
 
-        # Store fitness progress of the current run.
+        # Store the best fitness values for all generations of the current run in all_fitness.
         all_fitness.append(best_fitness)
 
     # Calculate average fitness across all runs for each generation
