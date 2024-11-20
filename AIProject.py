@@ -249,13 +249,13 @@ if __name__ == "__main__":
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
 
     # Store the fitness progress of multiple GA runs for performance analysis
-    all_runs_fitness = []
+    all_fitness = []
     print("\nWe are working on preparing your optimal outfit...")
 
     for run in range(20):  # Run the GA 20 times
         population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, 10)
         # Variables for tracking progress against meeting termination conditions
-        fitness_progress = []  # To track fitness for each generation
+        best_fitness = []  # To track fitness for each generation
         generation_counter = 0
         objective_function_value = 0 #highest fitness score found in the current generation
 
@@ -281,16 +281,16 @@ if __name__ == "__main__":
             # Set the objective function value to the highest fitness score in the current population
             objective_function_value = max(fitness_scores)
             # Append the best fitness value of the current generation to track progress
-            fitness_progress.append(objective_function_value)
+            best_fitness.append(objective_function_value)
             # Increment the generation counter
             generation_counter += 1
 
         # Store fitness progress of the current run.
-        all_runs_fitness.append(fitness_progress)
+        all_fitness.append(best_fitness)
 
     # Calculate average fitness across all runs for each generation
     average_fitness = []
-    for gen in zip(*all_runs_fitness):
+    for gen in zip(*all_fitness):
         average_fitness.append(sum(gen) / len(gen))
 
     # Select the best outfit from the last generation
