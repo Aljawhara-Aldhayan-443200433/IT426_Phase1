@@ -181,15 +181,10 @@ def Replacement(population, offspring):
     return offspring
 
 #Create Termination condition function
-#Variable for tracking progress against meeting termination conditions
-optimal_solution = 1.0 #best possible fitness value
 
-def termination_condition(generation_counter, objective_function_value, optimal_solution):
-#measure how close the current fitness is to the optimal solution
-    if abs(objective_function_value - optimal_solution) < 1e-8:
-        return True
+def termination_condition(generation_counter):
     #stop if the maximum number of generations has been reached (20000)
-    elif generation_counter >= 20000:
+    if generation_counter >= 20000:
         return True
     else:
         return False
@@ -261,7 +256,7 @@ if __name__ == "__main__":
         objective_function_value = 0 #highest fitness score found in the current generation
 
         # Run the GA until the termination condition is met
-        while not termination_condition(generation_counter, objective_function_value, optimal_solution):
+        while not termination_condition(generation_counter):
             # New generation
             offspring = []
             for _ in range(5):  # Since the population is fixed=10
@@ -279,10 +274,9 @@ if __name__ == "__main__":
             population = Replacement(population, offspring)
             # Evaluate the fitness scores
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
-            # Set the objective function value to the highest fitness score in the current population
-            objective_function_value = max(fitness_scores)
+
             # Append the best fitness value of the current generation to track progress
-            best_fitness.append(objective_function_value)
+            best_fitness.append(max(fitness_scores))
             # Increment the generation counter
             generation_counter += 1
 
