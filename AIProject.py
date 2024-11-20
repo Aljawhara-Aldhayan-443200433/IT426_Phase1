@@ -182,7 +182,7 @@ def Replacement(offspring):
 #Create Termination condition function
 
 def termination_condition(generation_counter):
-    #stop if the maximum number of generations has been reached (20000)
+    #stop the GA if it has reached the maximum number of generations (20,000)
     if generation_counter >= 20000:
         return True
     else:
@@ -274,12 +274,13 @@ if __name__ == "__main__":
             # Evaluate the fitness scores
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
 
-            # Append the best fitness value of the current generation to track progress
+            # Record the best fitness value for the current generation to track progress
             best_fitness.append(max(fitness_scores))
+
             # Increment the generation counter
             generation_counter += 1
 
-        # Store fitness progress of the current run.
+        # Store the fitness values of the current run for tracking progress.
         all_fitness.append(best_fitness)
 
     #calculate average fitness across all runs for each generation
@@ -307,32 +308,32 @@ if __name__ == "__main__":
     print("\nThe overall average fitness:", overall_average)
 
 
-# Plot the performance graph without limiting the number of generations
-plt.figure(figsize=(10, 6))  # For better visualization
+#plot the performance graph
+plt.figure(figsize=(10, 6))
 plt.plot(
-    range(0, len(average_fitness), 300),  # Plot every 100th generation on the x-axis
-    average_fitness[::300],  # Use the fitness values corresponding to every 100th generation
-    marker='D', linestyle='-', color='b'  # Diamond marker with a blue line
+    range(0, len(average_fitness), 300),  #plot every 100th generation
+    average_fitness[::300],  #use the fitness values corresponding to every 100th generation
+    marker='D', linestyle='-', color='b'  #diamond marker with a blue line
 )
-plt.title('GA Performance')  # Title of the graph
-plt.xlabel('Generation')  # Label for the x-axis
-plt.ylabel('Average Fitness')  # Label for the y-axis
-plt.grid(axis='y', linestyle='-', color='gray')  # Display horizontal grid lines only
-plt.show()  # Display the plot
+plt.title('GA Performance')  #title of the graph
+plt.xlabel('Generation')  #label for the x-axis
+plt.ylabel('Average Fitness')  #label for the y-axis
+plt.grid(axis='y', linestyle='-', color='gray')  #display horizontal grid lines only
+plt.show()  #display the plot
 
 # Limit the data to the first 100 generations
 """""
 average_fitness_first_100 = average_fitness[:100]
-# Plot the performance graph for the first 100 generations
-plt.figure(figsize=(10, 6))  # For better visualization
+#plot the performance graph for the first 100 generations
+plt.figure(figsize=(10, 6))
 plt.plot(
-    range(0, len(average_fitness_first_100)),  # Plot x-axis for the first 100 generations
-    average_fitness_first_100,  # Use the fitness values for the first 100 generations
-    marker='D', linestyle='-', color='b'  # Diamond marker with a blue line
+    range(0, len(average_fitness_first_100)),  #plot x-axis for the first 100 generations
+    average_fitness_first_100,  #use the fitness values for the first 100 generations
+    marker='D', linestyle='-', color='b'  #diamond marker with a blue line
 )
-plt.title('GA Performance')  # Title of the graph
-plt.xlabel('Generation')  # Label for the x-axis
-plt.ylabel('Average Fitness')  # Label for the y-axis
-plt.grid(axis='y', linestyle='-', color='gray')  # Display horizontal grid lines only
-plt.show()  # Display the plot
+plt.title('GA Performance')  #title of the graph
+plt.xlabel('Generation')  #label for the x-axis
+plt.ylabel('Average Fitness')  #label for the y-axis
+plt.grid(axis='y', linestyle='-', color='gray')  #display horizontal grid lines only
+plt.show()  #display the plot
 """""
