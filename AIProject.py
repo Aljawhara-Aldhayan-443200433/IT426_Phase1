@@ -175,8 +175,9 @@ def Mutation(individual, mutation_rate):
     return mutant
 
 
-def generational_replacement(population, offspring):
-    """Replaces the entire parent population with the offspring."""
+# Replacement(): Replace the old population with the new one(offspring)
+def Replacement(population, offspring):
+    
     return offspring
 
 #Create Termination condition function
@@ -275,7 +276,7 @@ if __name__ == "__main__":
                 # Add offspring to the new generation
                 offspring.extend([child1, child2])
             # Replace the old population with the new generation
-            population = generational_replacement(population, offspring)
+            population = Replacement(population, offspring)
             # Evaluate the fitness scores
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
             # Set the objective function value to the highest fitness score in the current population
