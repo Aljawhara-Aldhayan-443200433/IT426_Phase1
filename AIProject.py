@@ -1,5 +1,6 @@
 #imports
 import random
+import numpy as np
 import matplotlib.pyplot as plt
 #Search space
 Top=[
@@ -174,18 +175,16 @@ def Mutation(individual, mutation_rate):
     return mutant
 
 
-# Replacement(): Replace the old population with the new one(offspring)
-def Replacement(population, offspring):
-    
+def generational_replacement(population, offspring):
+    """Replaces the entire parent population with the offspring."""
     return offspring
-
 
 #Create Termination condition function
 #Variable for tracking progress against meeting termination conditions
 optimal_solution = 1.0 #best possible fitness value
 
 def termination_condition(generation_counter, objective_function_value, optimal_solution):
-    #measure how close the current fitness is to the optimal solution
+#measure how close the current fitness is to the optimal solution
     if abs(objective_function_value - optimal_solution) < 1e-8:
         return True
     #stop if the maximum number of generations has been reached (20000)
@@ -250,13 +249,13 @@ if __name__ == "__main__":
     dressCodePref, colorPalattePref, comfortLevelPref, budgetPref = user_input()
 
     # Store the fitness progress of multiple GA runs for performance analysis
-    all_fitness = []
+    all_runs_fitness = []
     print("\nWe are working on preparing your optimal outfit...")
 
     for run in range(20):  # Run the GA 20 times
         population = Create_Initial_Population(Top, Bottom, Shoes, Neck, Purse, 10)
         # Variables for tracking progress against meeting termination conditions
-        best_fitness = []  # To track fitness for each generation
+        fitness_progress = []  # To track fitness for each generation
         generation_counter = 0
         objective_function_value = 0 #highest fitness score found in the current generation
 
@@ -276,39 +275,24 @@ if __name__ == "__main__":
                 # Add offspring to the new generation
                 offspring.extend([child1, child2])
             # Replace the old population with the new generation
-            population = Replacement(population, offspring)
+            population = generational_replacement(population, offspring)
             # Evaluate the fitness scores
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
             # Set the objective function value to the highest fitness score in the current population
             objective_function_value = max(fitness_scores)
-            # Record the best fitness value of the current generation to track progress
-            best_fitness.append(objective_function_value)
+            # Append the best fitness value of the current generation to track progress
+            fitness_progress.append(objective_function_value)
             # Increment the generation counter
             generation_counter += 1
 
-        # Store the best fitness values for all generations of the current run in all_fitness.
-        all_fitness.append(best_fitness)
+        # Store fitness progress of the current run.
+        all_runs_fitness.append(fitness_progress)
 
     # Calculate average fitness across all runs for each generation
-    # Determine the number of generations from the length of the first run
-    num_generations = len(all_fitness[0])
-
-    # List to store the average fitness for each generation
     average_fitness = []
+    for gen in zip(*all_runs_fitness):
+        average_fitness.append(sum(gen) / len(gen))
 
-    # Calculate the average fitness for each generation
-    for gen_idx in range(num_generations):
-        # Collect the fitness values for the current generation from all runs
-        generation_values = [run[gen_idx] for run in all_fitness]
-    
-    # Calculate the average fitness for the current generation
-    average = sum(generation_values) / len(generation_values)
-    
-    # Append the average fitness to the list
-    average_fitness.append(average)
-
-# Print the average fitness values for all generations
-    print("Average fitness for each generation:", average_fitness)
     # Select the best outfit from the last generation
     selectedOutfit = population[fitness_scores.index(max(fitness_scores))]
 
@@ -322,6 +306,8 @@ if __name__ == "__main__":
     print(f"Purse: {purse[0]}")
     print("\nHope you feel fabulous in your outfit!")
 
+
+
 # Plot the performance graph without limiting the number of generations
 plt.figure(figsize=(10, 6))  # For better visualization
 plt.plot(
@@ -331,8 +317,23 @@ plt.plot(
 )
 plt.title('GA Performance')  # Title of the graph
 plt.xlabel('Generation')  # Label for the x-axis
-plt.ylabel('Fitness')  # Label for the y-axis
+plt.ylabel('Average Fitness')  # Label for the y-axis
 plt.grid(axis='y', linestyle='-', color='gray')  # Display horizontal grid lines only
 plt.show()  # Display the plot
 
-
+# Limit the data to the first 100 generations
+"""""
+average_fitness_first_100 = average_fitness[:100]
+# Plot the performance graph for the first 100 generations
+plt.figure(figsize=(10, 6))  # For better visualization
+plt.plot(
+    range(0, len(average_fitness_first_100)),  # Plot x-axis for the first 100 generations
+    average_fitness_first_100,  # Use the fitness values for the first 100 generations
+    marker='D', linestyle='-', color='b'  # Diamond marker with a blue line
+)
+plt.title('GA Performance')  # Title of the graph
+plt.xlabel('Generation')  # Label for the x-axis
+plt.ylabel('Average Fitness')  # Label for the y-axis
+plt.grid(axis='y', linestyle='-', color='gray')  # Display horizontal grid lines only
+plt.show()  # Display the plot
+"""""
