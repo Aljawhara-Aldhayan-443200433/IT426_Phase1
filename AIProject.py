@@ -182,11 +182,11 @@ def Replacement(population, offspring, dressCodePref, colorPalattePref, comfortL
 
     for eachIndivdual in allIndivduals:
             fitness = fitness_function(eachIndivdual, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref)
-            BestIndivduals.append((eachIndivdual,fitness))
+            BestIndivduals.append((fitness, eachIndivdual))
 
-    BestIndivduals = sorted(BestIndivduals, reverse=True, key=lambda x: x[1])
-    newPopulation= [indivdiual[0] for indivdiual in BestIndivduals[:10]]
-         
+    BestIndivduals = sorted(BestIndivduals, reverse=True)
+    newPopulation= [indivdiual[1] for indivdiual in BestIndivduals[:10]]
+    
     return newPopulation
 
 #Create Termination condition function
