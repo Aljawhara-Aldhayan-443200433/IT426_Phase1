@@ -175,7 +175,7 @@ def Mutation(individual, mutation_rate):
 
 
 # Replacement(): Replace the old population with the new one(offspring)
-def Replacement(population, offspring):
+def Replacement(offspring):
     
     return offspring
 
@@ -270,7 +270,7 @@ if __name__ == "__main__":
                 # Add offspring to the new generation
                 offspring.extend([child1, child2])
             # Replace the old population with the new generation
-            population = Replacement(population, offspring)
+            population = Replacement(offspring)
             # Evaluate the fitness scores
             fitness_scores = [fitness_function(ind, dressCodePref, colorPalattePref, comfortLevelPref, budgetPref) for ind in population]
 
